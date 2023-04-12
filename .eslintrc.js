@@ -3,8 +3,8 @@ module.exports = {
   env: { es6: true, browser: true },
   rules: {
     indent: [
-        "error",
-        2
+      "error",
+      2
     ],
     "prefer-const": "error",
     "no-unused-vars": ["error"],
@@ -12,6 +12,7 @@ module.exports = {
     "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [] }],
     camelcase: ["error"]
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
   }
