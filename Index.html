@@ -58,9 +58,12 @@
             <label class="input-option" for="Music">Music</label>
           </div>
         </div>
+        <div class="hidden-input">
+          <input type="hidden" name="empid" class="empid" id="" />
+        </div>
         <div class="btn-box">
           <input type="submit" id="submit-btn" value="Submit" class="submit-btn" />
-          <input type="reset" class="reset-btn reset" value="cancel" />
+          <input type="reset" class="reset-btn reset" value="Cancel" />
         </div>
       </form>
     </section>
@@ -84,6 +87,27 @@
         <tbody></tbody>
       </table>
     </section>
+
+    <section class="table-container">
+      <div class="header-bar">
+        <p class="heading">Display</p>
+      </div>
+      <table class="inverted-table" id="display-invert-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Hobbies</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
     <script src="./src/main.js" type="module"></script>
   </body>
 </html>

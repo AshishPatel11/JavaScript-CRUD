@@ -3,6 +3,7 @@ import TableMethods from "./TableMethods.js";
 const form = document.getElementById('Employee-form');
 const dobInp = document.getElementById('birthDay');
 const resetBtn = document.querySelector(".reset-btn")
+
 export default class Form {
 
   constructor() {
@@ -15,13 +16,13 @@ export default class Form {
     inputElem.forEach(element => {
       element.addEventListener("change", this.validations)
     })
-
   }
 
   //reset the form and back to the add employee form
   onReset = () => {
     Form.isEmpty()
     form.reset();
+    document.querySelector(".empid").removeAttribute("id")
     document.getElementById("submit-btn").value = "Submit"
     resetBtn.style.display = "none"
   }
@@ -98,7 +99,6 @@ export default class Form {
         const errorElem = document.querySelector(`.${element.type}Error`)
         element.classList.remove("input-error")
         errorElem.innerText = ""
-        empty = false
       }
     })
     return empty
@@ -121,8 +121,7 @@ export default class Form {
       return
     }
     else {
-      const mySearchParams = new URLSearchParams(window.location.href)
-      const id = Number(mySearchParams.get("index"))
+      const id = Number(document.querySelector(".empid").id)
       const key = allEmployees.findIndex(emp => emp.id === id)
       allEmployees.splice(key, 1, employee);
       Storage.set(allEmployees);

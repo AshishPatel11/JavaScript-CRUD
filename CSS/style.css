@@ -102,3 +102,35 @@ button[disabled] {
 .input-option {
   cursor: pointer;
 }
+
+.inverted-table,
+.inverted-table tr {
+  border: none;
+  padding: 0;
+}
+.inverted-table {
+  border: 1px solid black;
+  overflow: auto;
+}
+.inverted-table {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}
+.inverted-table th,
+.inverted-table td {
+  display: flex;
+  height: 3rem;
+  vertical-align: bottom;
+}
+.inverted-table thead {
+  display: grid;
+  position: sticky;
+  width: 10vw;
+  left: 0;
+  background-color: white;
+  border-right: 1px solid black
+}
+.inverted-table tbody {
+  display: grid;
+  grid-template-columns: repeat(7, 20vw);
+}

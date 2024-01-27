@@ -49,61 +49,50 @@ export default class TableMethods {
     //editing the record form localStorage
     static onEdit(event) {
         form.reset()
-        document.getElementById("submit-btn").value = "Edit"
+        document.getElementById("submit-btn").value = "Save"
         document.querySelector(".reset-btn").style.display = "inline-block"
 
         //getting the data to be updated
         const key = Number(event.target.id.split("_")[1])
-        window.history.replaceState(null, null, `?&index=${key}`);
-
         const allEmployees = Storage.get()
         const nameInp = document.getElementById('employeeName');
         const dobInp = document.getElementById('birthDay');
         const phoneInp = document.getElementById('phoneNum');
         const emailInp = document.getElementById("email");
+
         const employee = allEmployees.find(emp => emp.id === key)
         document.getElementById(employee.gender).checked = true
         employee.Hobbies.forEach((id) => {
             document.getElementById(id).checked = true
         })
         nameInp.value = employee.employeeName
+
         dobInp.value = employee.birthDay
         phoneInp.value = employee.phoneNum
         emailInp.value = employee.email
+        document.querySelector(".empid").setAttribute("id", `${employee.id}`)
+        // form.setAttribute("id", `${employee.id}`)
         Form.isEmpty();
     }
 
     //updating the nodes on different actions
     static updateTable(allEmployees = Storage.get(), indexKey = undefined, action = undefined) {
-        const tableBody = document.querySelector("#display-table > tbody:nth-child(2)")
+        const tableBody = document.querySelector("#display-invert-table > tbody:nth-child(2)")
 
         if (action === "deleted") {
             tableBody.removeChild(document.getElementById(`tr_${indexKey}`))
             return;
         }
-
         const newElem = allEmployees.map((emp) => {
             const node = document.createElement("tr")
             node.setAttribute("id", `tr_${emp.id}`)
-            setTd(node, emp.employeeName)
-            setTd(node, emp.gender)
-            setTd(node, emp.birthDay)
-            setTd(node, emp.email)
-            setTd(node, emp.phoneNum)
-            setTd(node, emp.Hobbies.join(", "))
-            setTd(node, emp.id, "buttons")
-            // node.innerHTML = `
-            //                     <td>${emp.employeeName}</td>
-            //                     <td>${emp.gender}</td>
-            //                     <td>${emp.birthDay}</td>
-            //                     <td>${emp.email}</td>
-            //                     <td>${emp.phoneNum}</td>
-            //                     <td>${emp.Hobbies.join(", ")}</td>
-            //                     <td>
-            //                     <button id=edit_${emp.id} class="edit-btn">Edit</button>
-            //                     <button id=delete_${emp.id} class="delete-btn">Delete</button>
-            //                     </td>
-            //                 `
+            createTd(node, emp.employeeName)
+            createTd(node, emp.gender)
+            createTd(node, emp.birthDay)
+            createTd(node, emp.email)
+            createTd(node, emp.phoneNum)
+            createTd(node, emp.Hobbies.join(", "))
+            createTd(node, emp.id, "buttons")
             return node
         })
         if (action === "update") {
@@ -124,7 +113,7 @@ export default class TableMethods {
         })
 
 
-        function setTd(tr, data, actions) {
+        function createTd(tr, data, actions) {
             const td = document.createElement("td")
             if (actions) {
                 const edtBtn = document.createElement("button")
