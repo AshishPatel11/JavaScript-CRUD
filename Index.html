@@ -1,15 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./CSS/style.css" />
+    <title>JavaScript CRUD</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-</head>
+  <body>
+    <section class="form-container">
+      <div class="header-bar">
+        <p class="heading">Add Employee</p>
+      </div>
+      <form id="Employee-form">
+        <div class="input-box">
+          <label for="employeeName" class="input-text">Name: <span class="error">*</span></label>
+          <input type="text" name="employeeName" id="employeeName" placeholder="Enter your name" />
+          <span></span>
+          <small class="error textError" id="nameErr"></small>
+        </div>
+        <div class="input-radiobox">
+          <label class="input-text">Gender: <span class="error">*</span></label>
+          <div>
+            <input type="radio" name="gender" checked id="Male" value="Male" />
+            <label class="input-option" for="Male">Male</label>
+            <input type="radio" name="gender" id="Female" value="Female" />
+            <label class="input-option" for="Female">Female</label>
+          </div>
+        </div>
+        <div class="input-box">
+          <label for="birthDay" class="input-text">Birth Date: <span class="error">*</span></label>
+          <input type="date" name="birthDay" id="birthDay" onfocus="this.showPicker()" />
+          <span></span>
+          <small class="error dateError" id="dateErr"></small>
+        </div>
+        <div class="input-box">
+          <label for="email" class="input-text">Email: <span class="error">*</span></label>
+          <input type="email" name="email" id="email" placeholder="Enter Email" />
+          <span></span>
+          <small class="error emailError" id="mailErr"></small>
+        </div>
+        <div class="input-box">
+          <label for="phoneNum" class="input-text">Phone No:</label>
+          <input type="number" placeholder="Enter phone" name="phoneNum" id="phoneNum" />
+          <span></span>
+          <small class="error numberError" id="phoneErr"></small>
+        </div>
+        <div class="input-checkbox">
+          <label class="input-text">Hobbies:</label>
+          <div>
+            <input type="checkbox" name="Hobbies" id="Cricket" value="Cricket" />
+            <label class="input-option" for="Cricket">Cricket</label><br />
+            <input type="checkbox" name="Hobbies" id="Chess" value="Chess" />
+            <label class="input-option" for="Chess">Chess</label><br />
+            <input type="checkbox" name="Hobbies" id="Music" value="Music" />
+            <label class="input-option" for="Music">Music</label>
+          </div>
+        </div>
+        <div class="btn-box">
+          <input type="submit" id="submit-btn" value="Submit" class="submit-btn" />
+          <input type="reset" class="reset-btn reset" value="cancel" />
+        </div>
+      </form>
+    </section>
 
-<body>
-  <script src='./src/main.js' type="module"></script>
-</body>
-
+    <section class="table-container">
+      <div class="header-bar">
+        <p class="heading">Display</p>
+      </div>
+      <table id="display-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Hobbies</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <script src="./src/main.js" type="module"></script>
+  </body>
 </html>
