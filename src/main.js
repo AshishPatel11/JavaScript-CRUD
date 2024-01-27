@@ -1,12 +1,12 @@
-import Methods from "./methods.js";
-import SubMain from "./subMain.js";
+import TableMethods from "./TableMethods.js";
+import Form from "./Form.js";
 
 
 export default class Main {
   constructor() {
-    new SubMain();    // call to SubMain
-    new Methods();
-    Methods.showTableData();  // function for table data
+    new Form();    // call to Form
+    new TableMethods();
+    TableMethods.showTableData();  // function for table data
   }
 }
 window.onload = function () {

@@ -1,23 +1,26 @@
-import Methods from "./methods.js";
+import Storage from "./Storage.js";
+import TableMethods from "./TableMethods.js";
 const form = document.getElementById('Employee-form');
 const dobInp = document.getElementById('birthDay');
 const resetBtn = document.querySelector(".reset-btn")
-export default class SubMain {
+export default class Form {
 
   constructor() {
     //eventlistners and setting date attribute
     form.addEventListener('submit', this.handleSubmit);
-    //event for the reset button
     resetBtn.addEventListener("click", this.onReset)
+    dobInp.setAttribute('max', new Date().toISOString().split('T')[0]);
     const inputElem = document.querySelectorAll("input#employeeName, input#birthDay, input#email, input#phoneNum")
+
     inputElem.forEach(element => {
       element.addEventListener("change", this.validations)
     })
-    dobInp.setAttribute('max', new Date().toISOString().split('T')[0]);
+
   }
+
   //reset the form and back to the add employee form
   onReset = () => {
-    this.isEmpty()
+    Form.isEmpty()
     form.reset();
     document.getElementById("submit-btn").value = "Submit"
     resetBtn.style.display = "none"
@@ -29,31 +32,31 @@ export default class SubMain {
       //validation for Name length
       case 'employeeName':
         if (event.target.value.length < 4 || event.target.value.length > 20)
-          SubMain.notValid(event, 'Name length must be between 4 to 20!');
+          Form.notValid(event, 'Name length must be between 4 to 20!');
         else if (/[^a-z0-9]+$/i.test(event.target.value))
-          SubMain.notValid(event, 'Name must be AlphaNumeric')
+          Form.notValid(event, 'Name must be AlphaNumeric')
         else
-          SubMain.valid(event)
+          Form.valid(event)
         break;
 
       //validation remove class if not null
       case 'birthDay':
         if (event.target.value)
-          SubMain.valid(event)
+          Form.valid(event)
         break;
 
       case 'email':
         if (event.target.value)
-          SubMain.valid(event)
+          Form.valid(event)
 
         break;
 
       //validation for phone num
       case 'phoneNum':
         if (event.target.value.length > 0 && event.target.value.length !== 10)
-          SubMain.notValid(event, 'Phone number length must be only 10 digits')
+          Form.notValid(event, 'Phone number length must be only 10 digits')
         else
-          SubMain.valid(event)
+          Form.valid(event)
         break;
 
       default:
@@ -79,7 +82,7 @@ export default class SubMain {
   }
 
   //empty validation on input fields
-  isEmpty() {
+  static isEmpty() {
     // onEmpty validations
     let empty = false
     const inputElem = document.querySelectorAll("input#employeeName, input#birthDay, input#email")
@@ -104,27 +107,28 @@ export default class SubMain {
   //handling submit of the form
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.isEmpty())
+    if (Form.isEmpty())
       return
 
-    const allEmployees = JSON.parse(localStorage.getItem('employees')) || [];
-    const employee = Methods.getEmployee();
+    const allEmployees = Storage.get() || [];
+    const employee = TableMethods.getEmployee();
 
     if (event.submitter.value === "Submit") {
-      //storing employee in localStorage
       allEmployees.push(employee);
-      localStorage.setItem('employees', JSON.stringify(allEmployees));
-      Methods.showTableData("create");
-      form.reset()
+      Storage.set(allEmployees);
+      TableMethods.showTableData("create");
+      this.onReset()
+      return
     }
     else {
       const mySearchParams = new URLSearchParams(window.location.href)
       const id = Number(mySearchParams.get("index"))
       const key = allEmployees.findIndex(emp => emp.id === id)
       allEmployees.splice(key, 1, employee);
-      localStorage.setItem('employees', JSON.stringify(allEmployees));
-      Methods.showTableData("update", key, id);
+      Storage.set(allEmployees);
+      TableMethods.showTableData("update", key, id);
       this.onReset()
+      return
     }
   }
 }

@@ -63,6 +63,7 @@ body {
 .edit-btn {
   padding: 4px 8px;
   font-size: 12px;
+  margin: 0 2px;
 }
 .delete-btn {
   background-color: rgb(189, 46, 46);
