@@ -1,5 +1,6 @@
 import Storage from "./Storage.js";
 import TableMethods from "./TableMethods.js";
+
 const form = document.getElementById('Employee-form');
 const dobInp = document.getElementById('birthDay');
 const resetBtn = document.querySelector(".reset-btn")
@@ -9,7 +10,7 @@ export default class Form {
   constructor() {
     //eventlistners and setting date attribute
     form.addEventListener('submit', this.handleSubmit);
-    resetBtn.addEventListener("click", this.onReset)
+    resetBtn.addEventListener("click", Form.onReset)
     dobInp.setAttribute('max', new Date().toISOString().split('T')[0]);
     const inputElem = document.querySelectorAll("input#employeeName, input#birthDay, input#email, input#phoneNum")
 
@@ -18,11 +19,22 @@ export default class Form {
     })
   }
 
+
+  //getting the employee data as object
+  static getEmployee() {
+    const data = new FormData(form);
+    const employee = { id: Date.now(), Hobbies: [] };
+    for (const [objKey, value] of data) {
+      objKey === "Hobbies" ? employee[objKey].push(value) : employee[objKey] = value.trim()
+    }
+    return employee;
+  }
+
   //reset the form and back to the add employee form
-  onReset = () => {
+  static onReset = () => {
     Form.isEmpty()
     form.reset();
-    document.querySelector(".empid").removeAttribute("id")
+    document.querySelector("#empid").removeAttribute("value")
     document.getElementById("submit-btn").value = "Submit"
     resetBtn.style.display = "none"
   }
@@ -47,9 +59,14 @@ export default class Form {
         break;
 
       case 'email':
-        if (event.target.value)
+        console.log(Storage.isUnique(event.target.value))
+        if (Storage.isUnique(event.target.value)) {
+          console.log("runn")
           Form.valid(event)
-
+        } else {
+          Form.notValid(event, "This email already exist!!")
+          console.log("object")
+        }
         break;
 
       //validation for phone num
@@ -89,7 +106,7 @@ export default class Form {
     const inputElem = document.querySelectorAll("input#employeeName, input#birthDay, input#email")
     inputElem.forEach(element => {
 
-      if (!element.value) {
+      if (!element.value.trim()) {
         const errorElem = document.querySelector(`.${element.type}Error`)
         element.classList.add("input-error")
         errorElem.innerText = "Please fill the required fields!"
@@ -107,27 +124,24 @@ export default class Form {
   //handling submit of the form
   handleSubmit = (event) => {
     event.preventDefault();
-    if (Form.isEmpty())
-      return
-
-    const allEmployees = Storage.get() || [];
-    const employee = TableMethods.getEmployee();
-
-    if (event.submitter.value === "Submit") {
-      allEmployees.push(employee);
-      Storage.set(allEmployees);
-      TableMethods.showTableData("create");
-      this.onReset()
+    if (Form.isEmpty()) {
       return
     }
-    else {
-      const id = Number(document.querySelector(".empid").id)
-      const key = allEmployees.findIndex(emp => emp.id === id)
-      allEmployees.splice(key, 1, employee);
-      Storage.set(allEmployees);
+
+    const employee = Form.getEmployee();
+
+    // TODO: check empoyee has ID field with value
+    if (document.getElementById("empid").value) {
+      //if the hidden input has value set then update
+      const id = Number(document.getElementById("empid").value)
+      const key = Storage.update(id, employee)
       TableMethods.showTableData("update", key, id);
-      this.onReset()
-      return
+    } else {
+      Storage.create(employee)
+      TableMethods.showTableData("create");
     }
+
+    Form.onReset()
+    return;
   }
 }

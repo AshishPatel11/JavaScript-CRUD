@@ -9,6 +9,7 @@ export default class Main {
     TableMethods.showTableData();  // function for table data
   }
 }
+
 window.onload = function () {
   new Main();
 };
