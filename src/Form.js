@@ -36,6 +36,7 @@ export default class Form {
     form.reset();
     document.querySelector("#empid").removeAttribute("value")
     document.getElementById("submit-btn").value = "Submit"
+    document.getElementById("submit-btn").removeAttribute("disabled")
     resetBtn.style.display = "none"
   }
 
@@ -61,11 +62,9 @@ export default class Form {
       case 'email':
         console.log(Storage.isUnique(event.target.value))
         if (Storage.isUnique(event.target.value)) {
-          console.log("runn")
           Form.valid(event)
         } else {
           Form.notValid(event, "This email already exist!!")
-          console.log("object")
         }
         break;
 

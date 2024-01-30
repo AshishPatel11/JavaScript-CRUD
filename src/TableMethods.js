@@ -43,7 +43,10 @@ export default class TableMethods {
     //editing the record form localStorage
     static onEdit(event) {
         form.reset()
+        document.documentElement.scrollTop = 0;
         document.getElementById("submit-btn").value = "Save"
+        document.getElementById("submit-btn").removeAttribute("disabled")
+
         document.querySelector(".reset-btn").style.display = "inline-block"
 
         //getting the data to be updated
@@ -67,7 +70,6 @@ export default class TableMethods {
 
         // TODO: Set value of hidden control 
         document.querySelector("#empid").setAttribute("value", `${employee.id}`)
-        // form.setAttribute("id", `${employee.id}`)
         Form.isEmpty();
     }
 

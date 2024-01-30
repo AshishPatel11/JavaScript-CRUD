@@ -33,10 +33,6 @@ export default class Storage {
 
     static isUnique(email) {
         const allEmployees = Storage.get()
-        if (allEmployees.find(emp => emp.email === email)) {
-            return false
-        } else {
-            return true
-        }
+        return !allEmployees.find(emp => emp.email === email && Number(emp.id) !== Number(document.getElementById("empid").value)) ?? false;
     }
 }
